@@ -1,0 +1,361 @@
+:root {
+  /* One blue, everywhere. There were three near-identical shades here and the
+     mismatch was visible between the header and the rest of the page. If you
+     need contrast against this, change the surface, not the blue. */
+  --blue: #10499b;
+  --yellow: #ffd23f;
+  --yellow-dim: #e9c04a;
+  --paper: #f7f5ef;
+  --card: #fff;
+  --edge: #e3ded1;
+  --ink: #1c1c1c;
+  --ink-soft: #4a4a4a;
+  --radius: 14px;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --gurmukhi: "Noto Sans Gurmukhi", "Gurmukhi MN", "Gurmukhi Sangam MN", var(--sans);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* Gurmukhi needs a little more line height and its own stack */
+body.lang-pa { font-family: var(--gurmukhi); line-height: 1.7; }
+body.lang-pa h2,
+body.lang-pa .hero__title { font-family: var(--gurmukhi); }
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+/* Content column. Narrower than the full-bleed header on purpose: with every
+   section stacked, a 1180px-wide row leaves a canyon between an event name and
+   its time. The hero and the occasion band still run edge to edge. */
+.wrap {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 32px);
+}
+
+/* ---------- Hero ---------- */
+
+.hero { background: var(--blue); color: #fff; }
+
+.hero__bar {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 8px clamp(16px, 4vw, 32px);
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Language toggle */
+
+.langtoggle {
+  display: flex;
+  flex: 0 0 auto;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.langtoggle__btn {
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.langtoggle__btn[lang="pa"] { font-family: var(--gurmukhi); }
+
+.langtoggle__btn[aria-pressed="true"] { background: var(--yellow); color: #2a2000; }
+
+/* Full-bleed image; title sits on solid blue beneath it — no overlay */
+
+.hero__image {
+  width: 100%;
+  height: clamp(190px, 38vw, 380px);
+  object-fit: cover;
+  object-position: center 45%;
+  filter: grayscale(1) contrast(1.04);
+}
+
+.hero__titles {
+  padding: 16px clamp(16px, 4vw, 32px) 20px;
+  text-align: center;
+}
+
+.hero__title {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 4.6vw, 2.6rem);
+  color: var(--yellow);
+  margin: 0 0 4px;
+  font-weight: 600;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.hero__dates {
+  font-family: var(--serif);
+  font-size: clamp(0.95rem, 2.2vw, 1.3rem);
+  margin: 0;
+  color: #fff;
+}
+
+body.lang-pa .hero__dates { font-family: var(--gurmukhi); }
+
+/* ---------- Occasion band ---------- */
+
+.occasion {
+  background: var(--yellow);
+  color: #2a2000;
+  padding: 12px clamp(16px, 4vw, 32px);
+  font-size: clamp(0.82rem, 1.9vw, 0.95rem);
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
+/* ---------- Layout ---------- */
+
+main { padding-bottom: 44px; }
+
+.section { padding-top: 32px; }
+
+h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+  margin: 0 0 16px;
+  color: var(--blue);
+}
+
+h2::after {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 3px;
+  background: var(--yellow-dim);
+  margin-top: 7px;
+  border-radius: 2px;
+}
+
+/* Everything stacks in a single column at every width, by explicit
+   preference. Nothing here should reintroduce a multi-column grid. */
+.days, .cards, .airports, .contacts { display: grid; gap: 10px; grid-template-columns: 1fr; }
+
+/* ---------- Schedule ---------- */
+
+.day {
+  background: var(--card);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+.day__label {
+  font-weight: 700;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.78rem;
+  margin: 0 0 10px;
+}
+
+body.lang-pa .day__label { text-transform: none; letter-spacing: 0; font-size: 0.88rem; }
+
+.evt {
+  padding: 9px 0;
+  border-top: 1px solid #efece2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+}
+
+.evt:first-of-type { border-top: 0; padding-top: 0; }
+
+.evt__name { font-weight: 600; font-size: 1rem; flex: 1 1 auto; }
+
+.evt__time { color: var(--ink-soft); font-size: 0.9rem; white-space: nowrap; }
+
+.tentative {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: #fdf0c8;
+  color: #7a5b00;
+  border-radius: 20px;
+  padding: 2px 8px;
+}
+
+/* ---------- Buttons ----------
+   Deliberately understated. Nothing here should compete with the schedule,
+   which is what people came for. */
+
+.btn {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.94rem;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.08s ease;
+}
+
+.btn:active { transform: scale(0.985); }
+
+/* Both directions links share one style — same weight, same colour. */
+.btn--quiet {
+  background: var(--card);
+  color: var(--blue);
+  border: 1px solid var(--edge);
+}
+
+.btnrow { display: grid; gap: 8px; margin-top: 12px; }
+
+/* Calendar export: a text link, not a call to action. */
+.textlink {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 4px 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-align: left;
+}
+
+/* Underline the label only — a descendant cannot undo an ancestor's
+   text-decoration, so putting it on the button underlines the sub-line too. */
+#addCalLabel {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.textlink__sub {
+  display: block;
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin-top: 1px;
+}
+
+/* ---------- Venue ---------- */
+
+.venue {
+  background: var(--blue);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.venue__name { font-weight: 700; font-size: 1.1rem; margin: 0 0 4px; }
+
+.venue__addr { margin: 0; opacity: 0.92; font-size: 0.98rem; }
+
+/* ---------- Cards ---------- */
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-decoration: none;
+  background: var(--card);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+.card--off { opacity: 0.62; }
+
+.card__title { font-weight: 700; color: var(--blue); font-size: 1.02rem; }
+
+.card__arrow { color: var(--blue); font-weight: 700; flex: 0 0 auto; }
+
+.card__soon {
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #8d8878;
+}
+
+body.lang-pa .card__soon,
+body.lang-pa .tentative { text-transform: none; letter-spacing: 0; }
+
+/* ---------- Airports ---------- */
+
+.airport {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--edge);
+  text-decoration: none;
+}
+
+.airport__code {
+  flex: 0 0 auto;
+  width: 54px;
+  text-align: center;
+  background: var(--blue);
+  color: #fff;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  padding: 7px 0;
+  border-radius: 8px;
+}
+
+.airport__text { display: flex; flex-direction: column; line-height: 1.35; }
+
+.airport__name { font-weight: 600; font-size: 0.97rem; }
+
+.airport__note { font-size: 0.82rem; color: var(--ink-soft); }
+
+/* ---------- Contact ---------- */
+
+.contact {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  background: var(--card);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius);
+  padding: 14px 17px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--blue);
+}
