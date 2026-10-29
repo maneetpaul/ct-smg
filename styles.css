@@ -1,0 +1,463 @@
+/* ============================================================
+   Connecticut Akhand Keertan Samaagam — stylesheet
+
+   "Bold Bands". Each section announces itself with a full-bleed blue
+   band; its content sits on white beneath. Sized throughout for older
+   eyes: 20px body, 22px event names, 64px buttons, nothing under 4.5:1.
+   No imagery, no gradients, no shadows.
+   ============================================================ */
+
+:root {
+  --blue:       #0f2f73;  /* bands, primary buttons, headings */
+  --blue-dark:  #09204f;  /* link hover only */
+  --kesri:      #c2600a;  /* day labels, airport codes, accent button */
+  --cream:      #fff6e9;  /* masthead and phone-number fills */
+  --paper:      #ffffff;
+  --ink:        #1c1a17;
+  --ink-mid:    #4a453e;
+  --ink-soft:   #6b655c;  /* 4.5:1 on white — do not lighten */
+  --rule:       #e4dfd5;
+
+  --measure: 640px;
+  --gutter: clamp(20px, 5vw, 28px);
+
+  /* Minimum tap target. Every button and list row meets this. */
+  --tap: 64px;
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua",
+           "Hoefler Text", Georgia, "Times New Roman", serif;
+  --sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+           "Helvetica Neue", Arial, sans-serif;
+  /* Mukta Mahee is fetched by app.js only when the page is in Gurmukhi.
+     Until it lands — and if it never does — the system faces behind it
+     render the page correctly, just smaller and lighter. */
+  --gurmukhi: "Mukta Mahee", "Noto Sans Gurmukhi", "Gurmukhi MN",
+              "Gurmukhi Sangam MN", var(--sans);
+}
+
+* { box-sizing: border-box; }
+
+/* app.js hides sections with the `hidden` attribute. Any rule below that
+   sets an explicit `display` would otherwise win over the browser default
+   and show the element anyway — this keeps `hidden` meaning hidden. */
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  /* 20px base. The whole page scales from here; do not lower it. */
+  font-size: 20px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body.lang-pa { font-family: var(--gurmukhi); line-height: 1.8; }
+
+body.lang-pa .masthead__title,
+body.lang-pa .venue__name { font-family: var(--gurmukhi); }
+
+/* Gurmukhi has no case, so letterspaced uppercase becomes noise.
+   Any new uppercase label must be added here too. */
+body.lang-pa .band h2,
+body.lang-pa .day__label,
+body.lang-pa .subhead,
+body.lang-pa .badge,
+body.lang-pa .row__soon {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Gurmukhi letterforms sit shorter than Latin, so the same px reads
+   smaller. These bump the Gurmukhi a step to match the English
+   optically rather than numerically. Sizes only — nothing else. */
+body.lang-pa .masthead__eyebrow { font-size: 17px; }
+body.lang-pa .masthead__dates   { font-size: 22px; }
+body.lang-pa .lede              { font-size: 20px; }
+body.lang-pa .day__label        { font-size: 19px; }
+body.lang-pa .evt__name         { font-size: 23px; }
+body.lang-pa .evt__time         { font-size: 21px; }
+body.lang-pa .btn               { font-size: 21px; }
+body.lang-pa .airport__name     { font-size: 21px; }
+body.lang-pa .airport__where,
+body.lang-pa .airport__drive    { font-size: 19px; }
+
+/* Phone numbers stay Latin digits in both languages, so they keep the
+   Latin face — Gurmukhi figures would be wrong to dial from. */
+body.lang-pa .btn--phone { font-family: var(--sans); font-size: 23px; }
+
+ul { list-style: none; margin: 0; padding: 0; }
+
+a { color: var(--blue); }
+
+a:hover { color: var(--blue-dark); }
+
+:focus-visible {
+  outline: 3px solid var(--kesri);
+  outline-offset: 3px;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--paper);
+  padding: 14px 18px;
+  font-weight: 700;
+  z-index: 10;
+}
+
+.skip:focus { left: 8px; top: 8px; }
+
+/* The bands run edge to edge; their contents line up with everything
+   else through this one shared inner column. */
+.inner {
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- Language bar ---------- */
+
+.langbar { background: var(--blue); }
+
+.langbar__inner {
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding: 12px var(--gutter);
+  display: flex;
+  gap: 8px;
+}
+
+.langbtn {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 52px;
+  border: 2px solid #7e97ce;
+  border-radius: 8px;
+  background: transparent;
+  color: #fff;
+  font-family: inherit;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.langbtn[lang="pa"] { font-family: var(--gurmukhi); }
+
+.langbtn[aria-pressed="true"] {
+  background: #fff;
+  border-color: #fff;
+  color: var(--blue);
+  font-weight: 800;
+}
+
+/* ---------- Masthead ---------- */
+
+.masthead {
+  background: var(--cream);
+  border-bottom: 6px solid var(--kesri);
+  padding-block: 28px 26px;
+}
+
+.masthead__eyebrow {
+  margin: 0 0 14px;
+  font-size: 16px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: #8a4a05;        /* darkened kesri — 4.5:1 on cream */
+  max-width: 40ch;
+}
+
+.masthead__title {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(2.3rem, 10.5vw, 3.4rem);
+  line-height: 1.08;
+  font-weight: 700;
+  color: var(--blue);
+  text-wrap: balance;
+}
+
+body.lang-pa .masthead__title {
+  line-height: 1.35;
+  font-size: clamp(1.9rem, 8.5vw, 2.8rem);
+}
+
+.masthead__dates {
+  margin: 18px 0 0;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.masthead__place {
+  margin: 4px 0 0;
+  font-size: 19px;
+  color: var(--ink-mid);
+}
+
+/* "Concluded" marker. Quiet, but legible. */
+.badge {
+  display: inline-block;
+  margin: 18px 0 0;
+  padding: 7px 14px;
+  border: 2px solid var(--kesri);
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a4a05;
+}
+
+/* ---------- Section bands ----------
+   This is the whole structural idea: a full-bleed blue bar naming the
+   section, content on white below it. No cards, borders or shadows are
+   needed anywhere because the bands do the separating. */
+
+.band { background: var(--blue); }
+
+.band h2 {
+  margin: 0;
+  padding-block: 15px;
+  font-family: var(--sans);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+body.lang-pa .band h2 { font-family: var(--gurmukhi); font-size: 22px; }
+
+.body { padding-block: 20px 28px; }
+
+.lede {
+  margin: 0 0 18px;
+  font-size: 19px;
+  line-height: 1.45;
+  color: var(--ink-mid);
+  max-width: 42ch;
+}
+
+.subhead {
+  margin: 30px 0 12px;
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+body.lang-pa .subhead { font-family: var(--gurmukhi); font-size: 19px; }
+
+/* ---------- Schedule ---------- */
+
+.day + .day { margin-top: 22px; }
+
+.day__label {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--kesri);
+}
+
+/* Name over time, not name-and-time on one line: at 22px the two
+   collide on a narrow phone, and the stacked form stays readable. */
+.evt {
+  padding-block: 14px;
+  border-top: 2px solid var(--rule);
+}
+
+.day:last-child .evt:last-child { border-bottom: 2px solid var(--rule); }
+
+.evt__name {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-wrap: pretty;
+}
+
+.evt__time {
+  margin: 5px 0 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink-mid);
+}
+
+.tentative {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 10px;
+  border: 2px solid var(--kesri);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a4a05;
+  vertical-align: 3px;
+}
+
+/* ---------- Buttons ----------
+   One size: full width, 64px tall, 20px bold. Three fills only.
+   Nothing on this page is a small link. */
+
+.stack { display: grid; gap: 10px; }
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--tap);
+  padding: 10px 18px;
+  border: 3px solid transparent;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn--solid  { background: var(--blue);  color: #fff; }
+.btn--accent { background: var(--kesri); color: #fff; }
+
+.btn--outline {
+  background: var(--paper);
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+.btn--solid:hover  { background: var(--blue-dark); color: #fff; }
+.btn--accent:hover { background: #9d4d07; color: #fff; }
+.btn--outline:hover { background: var(--cream); color: var(--blue); }
+
+/* A form or recordings link that has no URL yet. */
+.btn--off {
+  background: var(--paper);
+  color: var(--ink-soft);
+  border-color: var(--rule);
+  flex-direction: column;
+  gap: 2px;
+  cursor: default;
+}
+
+.row__soon {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* The calendar export sits under its button, not inside it. */
+.btn__note {
+  margin: 8px 0 0;
+  font-size: 17px;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+#addCal { margin-top: 20px; }
+
+/* Phone numbers: cream fill so they read as a distinct group. */
+.btn--phone {
+  background: var(--cream);
+  color: var(--blue);
+  border-color: var(--blue);
+  font-size: 23px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.btn--phone:hover { background: #ffeed7; color: var(--blue); }
+
+/* ---------- Location ---------- */
+
+.venue__name {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.venue__addr {
+  margin: 8px 0 18px;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--ink-mid);
+}
+
+/* ---------- Airports ---------- */
+
+.airport {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: var(--tap);
+  padding-block: 16px;
+  border-top: 2px solid var(--rule);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.airports li:last-child .airport { border-bottom: 2px solid var(--rule); }
+
+.airport__code {
+  flex: 0 0 58px;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--kesri);
+}
+
+.airport__text { flex: 1 1 auto; min-width: 0; }
+
+.airport__name {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-wrap: pretty;
+}
+
+.airport__where {
+  display: block;
+  font-size: 18px;
+  color: var(--ink-mid);
+}
+
+.airport__drive {
+  flex: 0 0 auto;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink-mid);
+  white-space: nowrap;
+}
+
+/* ---------- Footer ---------- */
+
+.foot {
+  background: var(--blue);
+  color: #fff;
+  padding-block: 26px 30px;
+  font-size: 17px;
+}
+
+.foot p { margin: 0; opacity: 0.88; }
+
+.foot p + p { margin-top: 3px; }

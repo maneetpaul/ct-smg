@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0f2f73">
+<title>Connecticut Akhand Keertan Samaagam</title>
+<meta name="description" content="Connecticut Akhand Keertan Samaagam — schedule, directions, accommodation and travel information.">
+<meta property="og:title" content="Connecticut Akhand Keertan Samaagam">
+<meta property="og:description" content="Gurdwara Guru Nanak Darbar, Southington, CT">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Language bar. Two full-size buttons rather than a small pill toggle:
+     this is the first control on the page and has to be unmissable. -->
+<div class="langbar">
+  <div class="langbar__inner" role="group" aria-label="Language">
+    <button type="button" id="langEn" class="langbtn" aria-pressed="true">English</button>
+    <button type="button" id="langPa" class="langbtn" aria-pressed="false" lang="pa">ਪੰਜਾਬੀ</button>
+  </div>
+</div>
+
+<!-- Masthead on cream, so the blue section bands below read as structure. -->
+<header class="masthead">
+  <div class="inner">
+    <p class="masthead__eyebrow" id="occasion"></p>
+    <h1 class="masthead__title" id="title"></h1>
+    <p class="masthead__dates" id="dates"></p>
+    <p class="masthead__place" id="place"></p>
+    <p class="badge" id="badge" hidden></p>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Shown only once `concluded` is true in data.js -->
+  <section id="secRecordings" hidden>
+    <div class="band"><div class="inner"><h2 id="hRecordings"></h2></div></div>
+    <div class="inner body">
+      <p class="lede" id="recordingsMessage"></p>
+      <ul class="stack" id="recordingsLinks"></ul>
+      <h3 class="subhead" id="hRecordingsPast" hidden></h3>
+      <ul class="stack" id="recordingsPast"></ul>
+    </div>
+  </section>
+
+  <section id="secSchedule">
+    <div class="band"><div class="inner"><h2 id="hSchedule"></h2></div></div>
+    <div class="inner body">
+      <div id="schedule"></div>
+      <button class="btn btn--solid" id="addCal" type="button"></button>
+      <p class="btn__note" id="addCalSub"></p>
+    </div>
+  </section>
+
+  <section id="secLocation">
+    <div class="band"><div class="inner"><h2 id="hLocation"></h2></div></div>
+    <div class="inner body">
+      <p class="venue__name" id="venueName"></p>
+      <p class="venue__addr" id="venueAddr"></p>
+      <div class="stack">
+        <a class="btn btn--accent" id="mapsGoogle" target="_blank" rel="noopener"></a>
+        <a class="btn btn--outline" id="mapsApple" target="_blank" rel="noopener"></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="secForms">
+    <div class="band"><div class="inner"><h2 id="hForms"></h2></div></div>
+    <div class="inner body">
+      <ul class="stack" id="forms"></ul>
+    </div>
+  </section>
+
+  <section id="secAirports">
+    <div class="band"><div class="inner"><h2 id="hAirports"></h2></div></div>
+    <div class="inner body">
+      <ul class="airports" id="airports"></ul>
+    </div>
+  </section>
+
+  <section id="secContact">
+    <div class="band"><div class="inner"><h2 id="hContact"></h2></div></div>
+    <div class="inner body">
+      <p class="lede" id="contactLede"></p>
+      <ul class="stack" id="contacts"></ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="inner">
+    <p id="footName"></p>
+    <p id="footYear"></p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
